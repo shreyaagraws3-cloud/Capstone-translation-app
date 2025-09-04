@@ -6,8 +6,19 @@ import pandas as pd
 import tempfile
 import os
 
+#Only suitable for running locally when you are inserting your API key in this code only
 #Set up google Generative AI API key
-genai.configure(api_key="API key here!")
+#genai.configure(api_key="API key here!")
+#model = genai.GenerativeModel("gemini-1.5-flash")
+
+#But in the deployment with stream cloud
+import streamlit as st
+import google.generativeai as genai
+# Correct way: read key from secrets
+api_key = st.secrets["GOOGLE_API_KEY"]
+# Configure the API
+genai.configure(api_key=api_key)
+# Create model instance
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 #Function: Translate text using Google Generative AI 
@@ -101,3 +112,4 @@ if st.button("Translate"):
                 st.download_button('Download Audio', f, file_name="translated_audio.mp3", mime='audio/mp3')
         else:
             st.error(audio_file)   
+
